@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="tr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"
+          integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" rel="stylesheet">
+    <title>Menu</title>
+
+</head>
+<body>
+
+<div th:fragment="menu">
+    <div class="row ">
+        <div class="d-flex align-items-start bg-white shadow-sm ">
+            <div aria-orientation="vertical" class="nav flex-column nav-pills mr-3" id="pills-tab" role="tablist">
+                <a data-toggle="pill"
+                   role="tab"
+                   th:attr="aria-controls=${tmpmenuKategori.id}"
+                   th:class="${iter.first}? ' nav-link border active' : ' nav-link border'"
+                   th:each="tmpmenuKategori, iter : ${menuKategori}"
+                   th:href="'#list-'+@{${tmpmenuKategori.id}}"
+                   th:id="'list-'+${tmpmenuKategori.id}+'-list'"
+                   th:text="${tmpmenuKategori.kategoriAdi}"></a>
+            </div>
+
+            <div class="tab-content w-100" id="nav-tabContent" style="height: 100vh; overflow-y: scroll;">
+                <div role="tabpanel"
+                     th:attr="aria-labelledby='list-'+${tmpmenuKategori.id}+'-list'"
+                     th:class="${iter.first}? 'tab-pane fade show active' : 'tab-pane fade'"
+                     th:each="tmpmenuKategori, iter : ${menuKategori}"
+                     th:id="'list-'+${tmpmenuKategori.id}">
+
+                    <div class="row justify-content-center
+                     row-cols-xs-1
+                      row-cols-sm-2
+                      row-cols-md-4
+                      row-cols-lg-4
+                      row-cols-xl-5
+                      p-0 ml-0 mr-0">
+
+                        <div class="col p-1 m-0"
+                             th:each="tmpmenuIcerik, iStat : ${tmpmenuKategori.getMenuIcerik()}">
+
+                            <div class="card border h-100" style="border-radius: 16px!important;"
+                                 th:data-url="@{/siparisEkle/(itemId=${tmpmenuIcerik.id},siparisDurum=ekle)}"
+                                 th:onclick="siparisEkleCikar(this.getAttribute('data-url'))">
+
+                                <img alt=""
+                                     class="card-img-top w-100"
+                                     style="flex-shrink: 0; align-self: center; border-radius:16px 16px 0 0; max-width: 200px; max-height: 200px;"
+                                     th:attr="src=${tmpmenuIcerik.imagePath},alt=${tmpmenuIcerik.icerikBaslik}"
+                                     th:id="'itemImage-'+${tmpmenuIcerik.id}">
+                                <div class="card-body">
+                                    <h6 class="card-title" th:text="${tmpmenuIcerik.icerikBaslik}"></h6>
+                                    <p class="card-text"><small> İçindekiler: ...</small></p>
+                                </div>
+                                <div class="card-footer">
+                                    <small class="text-muted" th:text="${tmpmenuIcerik.fiyat}+' Tl'"></small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div style="height:90vh" th:fragment="siparis">
+    <div class="row p-2 shadow-sm" style="height: 95%;overflow-y: auto;overflow-x: hidden;">
+        <div class="col">
+            <div class="card mb-2 ml-2 shadow-sm"
+                 style="border-radius:8px; box-shadow: 0 14px 80px rgba(34, 35, 58, 0.2);"
+                 th:attr="aria-labelledby='list-'+${tmpsiparisList.urunId}"
+                 th:each="tmpsiparisList, iStat : ${siparisList}"
+                 th:id="'list-'+${tmpsiparisList.urunId}">
+                <div class="row g-0">
+                    <div class="col-3"
+                         style="flex-shrink: 0;
+                               box-shadow:4px 4px 20px 0 #343a4066; border-radius: 8px; overflow: hidden; align-self: center">
+                        <img alt=""
+                             class="h-100 w-100"
+                             th:attr="src=${tmpsiparisList.imageUrl},alt=${tmpsiparisList.header}">
+                    </div>
+                    <div class="col-9">
+                        <div class="card-body pb-1 pt-1">
+                            <div class="row"><h5 class="card-title mb-0" th:text="${tmpsiparisList.header}"></h5>
+                                <div class="col-8">
+                                    <p class="card-text pb-0 mb-0">
+                                        <small class="text-muted"
+                                               th:text="'Toplam adet: '">
+                                        </small>
+                                        <small class="badge bg-primary rounded-pill"
+                                               th:text="${tmpsiparisList.count}">
+                                        </small>
+                                    </p>
+                                    <p class="card-text">
+                                        <small class="text-muted"
+                                               th:text="${tmpsiparisList.fiyat}+' Tl'">
+                                        </small>
+                                    </p>
+                                </div>
+                                <div class="col-4 p-1" style="align-self: center;">
+                                    <button class="btn btn-outline-success rounded-circle"
+                                            style="transition: all ease-in-out 0.2s;" th:data-url="@{/siparisEkle/(itemId=${tmpsiparisList.urunId},siparisDurum=ekle)}"
+                                            th:onclick="siparisEkleCikar(this.getAttribute('data-url'))"
+                                            type="submit">+
+                                    </button>
+                                    <button class="btn btn-outline-danger rounded-circle"
+                                            style="transition: all ease-in-out 0.2s;" th:data-url="@{/siparisEkle/(itemId=${tmpsiparisList.urunId},siparisDurum=cikar)}"
+                                            th:onclick="siparisEkleCikar(this.getAttribute('data-url'))"
+                                            type="submit">-
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row p-1" style="height:5%;">
+        <span style="width: fit-content;">Toplam Tutar: </span>
+        <span class="font-weight-bold text-danger" style="width: fit-content;"
+              th:text="(${toplamTutar}==null?'':${toplamTutar}+' TL')"></span>
+    </div>
+</div>
+<div th:fragment="siparisIslemleri">
+    <div class="col p-1">
+        <button class="btn btn-success border shadow-sm h-100 w-100" type="submit">Bitir</button>
+    </div>
+    <div class="col p-1">
+        <button class="btn btn-warning border shadow-sm h-100 w-100" type="submit">Hesap İste</button>
+
+    </div>
+    <div class="col p-1">
+        <button class="btn btn-danger border shadow-sm h-100 w-100" type="submit">Kapat</button>
+
+    </div>
+    <div class="col p-1">
+        <button class="btn btn-secondary border shadow-sm h-100 w-100" type="submit">Masalar</button>
+
+    </div>
+</div>
+</body>
+</html>
+<!--  <div class="blog-slider">
+              <div class="blog-slider__wrp swiper-wrapper">
+                  <div class="blog-slider__item swiper-slide">
+                      <div class="blog-slider__img">
+
+                          <img src="data:"s alt="">
+                      </div>
+                      <div class="blog-slider__content">
+                          <span class="blog-slider__code">26 December 2019</span>
+                          <div class="blog-slider__title">Lorem Ipsum</div>
+                          <div class="blog-slider__text">Lorem ipsum dolor sit amet
+                          </div>
+                          <a href="#" class="blog-slider__button">READ</a>
+                      </div>
+                  </div>
+
+              </div>
+              <div class="blog-slider__pagination"></div>
+          </div>-->
