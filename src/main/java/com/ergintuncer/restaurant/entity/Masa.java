@@ -21,7 +21,7 @@ public class Masa implements Serializable {
     @Column(name = "masa_kapasite", nullable = false)
     private short masaKapasite;
     @Transient
-    private float toplamFiyat;
+    private double toplamFiyat;
     @OneToMany(mappedBy = "masa")
     private List<Siparis> siparis;
 
