@@ -12,6 +12,7 @@
 <body>
 
 <div th:fragment="menu">
+
     <div class="row ">
         <div class="d-flex align-items-start bg-white shadow-sm ">
             <div aria-orientation="vertical" class="nav flex-column nav-pills mr-3" id="pills-tab" role="tablist">
@@ -25,7 +26,8 @@
                    th:text="${tmpmenuKategori.kategoriAdi}"></a>
             </div>
 
-            <div class="tab-content w-100" id="nav-tabContent" style="height: 100vh; overflow-y: scroll;">
+            <div class="tab-content w-100" id="nav-tabContent"
+                 style="height: 100vh; overflow-y: scroll; overflow-x: hidden">
                 <div role="tabpanel"
                      th:attr="aria-labelledby='list-'+${tmpmenuKategori.id}+'-list'"
                      th:class="${iter.first}? 'tab-pane fade show active' : 'tab-pane fade'"
@@ -40,18 +42,23 @@
                       row-cols-xl-5
                       p-0 ml-0 mr-0">
 
-                        <div class="col p-1 m-0"
+                        <div class="col p-1 m-0 hover"
                              th:each="tmpmenuIcerik, iStat : ${tmpmenuKategori.getMenuIcerik()}">
 
+
                             <div class="card border h-100" style="border-radius: 16px!important;"
+                                 th:alt="${tmpmenuIcerik.imagePath}"
+                                 th:id="${tmpmenuIcerik.id}"
                                  th:data-url="@{/siparisEkle/(itemId=${tmpmenuIcerik.id},siparisDurum=ekle)}"
-                                 th:onclick="siparisEkleCikar(this.getAttribute('data-url'))">
+                                 th:onclick="siparisEkleCikar(this.getAttribute('data-url'),this.getAttribute('id'),this.getAttribute('alt'))">
+
 
                                 <img alt=""
                                      class="card-img-top w-100"
                                      style="flex-shrink: 0; align-self: center; border-radius:16px 16px 0 0; max-width: 200px; max-height: 200px;"
                                      th:attr="src=${tmpmenuIcerik.imagePath},alt=${tmpmenuIcerik.icerikBaslik}"
                                      th:id="'itemImage-'+${tmpmenuIcerik.id}">
+
                                 <div class="card-body">
                                     <h6 class="card-title" th:text="${tmpmenuIcerik.icerikBaslik}"></h6>
                                     <p class="card-text"><small> İçindekiler: ...</small></p>
@@ -81,7 +88,7 @@
                          style="flex-shrink: 0;
                                box-shadow:4px 4px 20px 0 #343a4066; border-radius: 8px; overflow: hidden; align-self: center">
                         <img alt=""
-                             class="h-100 w-100"
+                             class="h-100 w-100 hover"
                              th:attr="src=${tmpsiparisList.imageUrl},alt=${tmpsiparisList.header}">
                     </div>
                     <div class="col-9">
@@ -104,12 +111,14 @@
                                 </div>
                                 <div class="col-4 p-1" style="align-self: center;">
                                     <button class="btn btn-outline-success rounded-circle"
-                                            style="transition: all ease-in-out 0.2s;" th:data-url="@{/siparisEkle/(itemId=${tmpsiparisList.urunId},siparisDurum=ekle)}"
+                                            style="transition: all ease-in-out 0.2s;"
+                                            th:data-url="@{/siparisEkle/(itemId=${tmpsiparisList.urunId},siparisDurum=ekle)}"
                                             th:onclick="siparisEkleCikar(this.getAttribute('data-url'))"
                                             type="submit">+
                                     </button>
                                     <button class="btn btn-outline-danger rounded-circle"
-                                            style="transition: all ease-in-out 0.2s;" th:data-url="@{/siparisEkle/(itemId=${tmpsiparisList.urunId},siparisDurum=cikar)}"
+                                            style="transition: all ease-in-out 0.2s;"
+                                            th:data-url="@{/siparisEkle/(itemId=${tmpsiparisList.urunId},siparisDurum=cikar)}"
                                             th:onclick="siparisEkleCikar(this.getAttribute('data-url'))"
                                             type="submit">-
                                     </button>
@@ -131,7 +140,8 @@
 </div>
 <div th:fragment="siparisIslemleri">
     <div class="col p-1">
-        <button class="btn btn-success border shadow-sm h-100 w-100" id="btnSiparisKaydet" type="submit">Kaydet</button>
+        <button class="btn btn-success border shadow-sm h-100 w-100" id="btnSiparisKaydet" type="submit">Kaydet
+        </button>
     </div>
     <div class="col p-1">
         <button class="btn btn-warning border shadow-sm h-100 w-100" id="btnHesap" type="submit">Hesap İste</button>
@@ -142,7 +152,8 @@
 
     </div>
     <div class="col p-1">
-        <button class="btn btn-secondary border shadow-sm h-100 w-100" id="btnMasalar" type="submit">Masalar</button>
+        <button class="btn btn-secondary border shadow-sm h-100 w-100" id="btnMasalar" type="submit">Masalar
+        </button>
 
     </div>
 </div>

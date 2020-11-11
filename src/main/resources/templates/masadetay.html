@@ -2,7 +2,7 @@
 <html lang="tr" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
     <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"
           integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" rel="stylesheet">
@@ -30,6 +30,16 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #555;
         }
+
+        .hover {
+            transition: all 150ms ease-out;
+        }
+
+        .hover:hover {
+            transform: scale(1.05);
+        }
+
+
     </style>
 </head>
 <body style="overflow:auto;">
@@ -79,6 +89,7 @@
 <script>
     $(document).ready(
         function () {
+
             var url = '/menu';
             $.ajax({
                 url: url,
@@ -90,41 +101,39 @@
         }
     );
 
-    function siparisEkleCikar(url) {
+    function siparisEkleCikar(url, componentId, imagePath) {
+        console.log(imagePath);
+        var image = document.getElementById('itemImage-' + componentId);
         $.ajax({
             url: url + '&masaId=' + [[${masaId}]],
             type: 'GET',
+
             success: function (data) {
-                console.log(data)
                 $("#siparis").html(data);
+                image.src = "/image/success.gif";
+                setTimeout(function () {
+                    image.src = imagePath;
+                }, 1000);
+            }, error: function () {
+                image.src = "/image/error.gif";
+                setTimeout(function () {
+                    image.src = imagePath;
+                }, 1000);
             }
+
         })
     }
 
     $(document).ready(function () {
-        console.log("Burda1")
         $.ajax({
             url: '/siparisList?masaId=' + [[${masaId}]],
             type: 'GET',
             success: function (data) {
-                console.log("Burda2")
                 $("#siparis").html(data);
             }
         })
     });
-    var swiper = new Swiper('.blog-slider', {
-        spaceBetween: 30,
-        effect: 'fade',
-        loop: true,
-        mousewheel: {
-            invert: false,
-        },
-        // autoHeight: true,
-        pagination: {
-            el: '.blog-slider__pagination',
-            clickable: true,
-        }
-    });
+
     document.getElementById("btnSiparisKaydet").onclick = function () {
         // TODO Sipariş Kaydet ve anasayfaya yönlendir
         location.href = "/masalar";
