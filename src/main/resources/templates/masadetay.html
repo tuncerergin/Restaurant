@@ -59,7 +59,7 @@
     </div>
 </nav>-->
 
-<div class="bg-light container-fluid d-flex flex-column"
+<div class="bg-white container-fluid d-flex flex-column"
      style="/*padding-top: 4rem;*/">
     <div class="row row-cols-1 row-cols-xs-1 row-cols-sm-1 row-cols-md-1 row-cols-lg-2 row-cols-xl-2">
         <div class=" col-xl-8 col-lg-8 h-100" id="menu" th:include="fragments/components.html :: menu"></div>
@@ -102,12 +102,10 @@
     );
 
     function siparisEkleCikar(url, componentId, imagePath) {
-        console.log(imagePath);
-        var image = document.getElementById('itemImage-' + componentId);
+        var image = document.getElementById(componentId);
         $.ajax({
             url: url + '&masaId=' + [[${masaId}]],
             type: 'GET',
-
             success: function (data) {
                 $("#siparis").html(data);
                 image.src = "/image/success.gif";

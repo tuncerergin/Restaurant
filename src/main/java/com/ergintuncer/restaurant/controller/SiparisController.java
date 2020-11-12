@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,18 +61,24 @@ public class SiparisController {
                     siparisItem.getUrun().getId(),
                     siparisItem.getUrun().getIcerikBaslik(),
                     siparisItem.getUrun().getImagePath(),
-                    siparisItem.getFiyat()
+                    siparisItem.getFiyat(),
+                    siparisItem.getSiparisAlmaTarihi()
             );
             if (siparisList.parallelStream().anyMatch(o -> o.getUrunId() == item.getUrunId())) {
                 siparisList.get(siparisList.indexOf(item)).setCount(siparisList.get(siparisList.indexOf(item)).getCount() + 1);
+                siparisList.get(siparisList.indexOf(item)).setTarih(item.getTarih());// Son alınan siparişin saati listelenecek
             } else {
                 siparisList.add(0, item);
             }
             toplamTutar += item.getFiyat();
         }
-        System.out.println(siparisList);
-        model.addAttribute("siparisList", siparisList);
+
         model.addAttribute("toplamTutar", toplamTutar);
+        if (!siparisList.isEmpty()) {
+            model.addAttribute("siparisList", siparisList);
+        } else {
+            model.addAttribute("listeBos", true);
+        }
         return "fragments/components :: siparis";
     }
 
@@ -83,7 +90,8 @@ public class SiparisController {
                 menuIcerik.getId(),
                 menuIcerik.getIcerikBaslik(),
                 menuIcerik.getImagePath(),
-                menuIcerik.getFiyat()
+                menuIcerik.getFiyat(),
+                new Timestamp(System.currentTimeMillis())
         );
 
         if (siparisDurum.equals("ekle")) {
@@ -133,7 +141,11 @@ public class SiparisController {
             siparisRepository.deleteLastSiparisByUrunIdAndMasaId(Integer.valueOf(itemId), Integer.valueOf(masaId));
             toplamTutar -= item.getFiyat();
         }
-        model.addAttribute("siparisList", siparisList);
+        if (!siparisList.isEmpty()) {
+            model.addAttribute("siparisList", siparisList);
+        } else {
+            model.addAttribute("listeBos", true);
+        }
         model.addAttribute("toplamTutar", toplamTutar);
         return "fragments/components :: siparis";
     }

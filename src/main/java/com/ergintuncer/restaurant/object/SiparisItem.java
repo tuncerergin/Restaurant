@@ -2,6 +2,8 @@ package com.ergintuncer.restaurant.object;
 
 import lombok.Data;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Objects;
 
 @Data
@@ -11,13 +13,16 @@ public class SiparisItem {
     private String imageUrl;
     private float fiyat;
     private int count = 1;
-    public SiparisItem( int urunId, String header, String imageUrl, float fiyat) {
+    private Timestamp tarih;
 
+    public SiparisItem(int urunId, String header, String imageUrl, float fiyat, Timestamp tarih) {
         this.urunId = urunId;
         this.header = header;
         this.imageUrl = imageUrl;
         this.fiyat = fiyat;
+        this.tarih = tarih;
     }
+
 
     @Override
     public boolean equals(Object o) {
@@ -35,4 +40,8 @@ public class SiparisItem {
         return Objects.hash(getUrunId(), getHeader(), getImageUrl(), getFiyat());
     }
 
+    public String getSiparisSaati() {
+        return new SimpleDateFormat("HH:mm").format(tarih);
+
+    }
 }
