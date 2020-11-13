@@ -3,7 +3,6 @@ package com.ergintuncer.restaurant.controller;
 import com.ergintuncer.restaurant.entity.Masa;
 import com.ergintuncer.restaurant.entity.MenuIcerik;
 import com.ergintuncer.restaurant.entity.Siparis;
-import com.ergintuncer.restaurant.entity.SiparisDurum;
 import com.ergintuncer.restaurant.object.SiparisItem;
 import com.ergintuncer.restaurant.repository.*;
 import org.springframework.stereotype.Controller;
@@ -53,8 +52,7 @@ public class SiparisController {
 
     @RequestMapping(value = "/siparisList", method = RequestMethod.GET)
     public String siparisListele(Model model, @RequestParam("masaId") String masaId) {
-        SiparisDurum siparisDurum = siparisDurumRepository.getOne(SIPARIS_DURUM_HESAP_ISTENDI);
-        List<Siparis> siparisItems = siparisRepository.findAllByMasaIdAndSiparisDurumLessThanEqual(Integer.valueOf(masaId), siparisDurum);
+        List<Siparis> siparisItems = siparisRepository.findAllByMasaIdAndSiparisDurum_IdLessThanEqual(Integer.valueOf(masaId), SIPARIS_DURUM_HESAP_ISTENDI);
 
         for (Siparis siparisItem : siparisItems) {
             SiparisItem item = new SiparisItem(

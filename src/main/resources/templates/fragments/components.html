@@ -44,23 +44,29 @@
 
                         <div class="col p-1 m-0 hover"
                              th:each="tmpmenuIcerik, iStat : ${tmpmenuKategori.getMenuIcerik()}">
-
-
                             <div class="card border h-100" style="border-radius: 16px!important;"
-                                 th:id="${tmpmenuIcerik.id}"
-                                 th:data-url="@{/siparisEkle/(itemId=${tmpmenuIcerik.id},siparisDurum=ekle)}"
-                                 th:onclick="siparisEkleCikar(this.getAttribute('data-url'),'itemImage-' + [[${tmpmenuIcerik.id}]],[[${tmpmenuIcerik.imagePath}]])">
-
+                                 th:id="${tmpmenuIcerik.id}">
 
                                 <img alt=""
-                                     class="card-img-top w-100"
-                                     style="flex-shrink: 0; align-self: center; border-radius:16px 16px 0 0; max-width: 200px; max-height: 200px;"
+                                     class="card-img-top img-fluid"
+                                     style="flex-shrink: 0; align-self: center; border-radius:16px 16px 0 0; max-width: 200px; max-height: 200px; cursor: pointer;"
+                                     th:onclick="siparisEkleCikar([[@{/siparisEkle/(itemId=${tmpmenuIcerik.id},siparisDurum=ekle)}]],'itemImage-' + [[${tmpmenuIcerik.id}]],[[${tmpmenuIcerik.imagePath}]])"
                                      th:attr="src=${tmpmenuIcerik.imagePath},alt=${tmpmenuIcerik.icerikBaslik}"
                                      th:id="'itemImage-'+${tmpmenuIcerik.id}">
-
                                 <div class="card-body">
-                                    <h6 class="card-title" th:text="${tmpmenuIcerik.icerikBaslik}"></h6>
-                                    <p class="card-text"><small> İçindekiler: ...</small></p>
+                                    <h6 class="card-title"
+                                        style=" cursor: pointer;"
+                                        th:onclick="siparisEkleCikar([[@{/siparisEkle/(itemId=${tmpmenuIcerik.id},siparisDurum=ekle)}]],'itemImage-' + [[${tmpmenuIcerik.id}]],[[${tmpmenuIcerik.imagePath}]])"
+                                        th:text="${tmpmenuIcerik.icerikBaslik}"></h6>
+                                    <details>
+                                        <summary><small> İçindekiler:</small></summary>
+                                        <p class="m-0"
+                                           th:each="icindekiler, iStat :${tmpmenuIcerik.icindekiler}">
+                                            <small class="card-subtitle mb-2 text-muted"
+                                                   th:text="' -'+${icindekiler.malzeme.malzemeAdi}"></small>
+                                        </p>
+                                    </details>
+
                                 </div>
                                 <div class="card-footer">
                                     <small class="text-muted" th:text="${tmpmenuIcerik.fiyat}+' Tl'"></small>
@@ -71,9 +77,7 @@
                 </div>
             </div>
         </div>
-
     </div>
-
 </div>
 
 <div style="height:90vh" th:fragment="siparis">
@@ -85,8 +89,8 @@
         <div class="col">
             <div class="card mb-2 ml-2 shadow-sm"
                  style="border-radius:8px; box-shadow: 0 14px 80px rgba(34, 35, 58, 0.2);"
-                 th:each="tmpsiparisList, iStat : ${siparisList}"
                  th:attr="aria-labelledby='list-'+${tmpsiparisList.urunId}"
+                 th:each="tmpsiparisList, iStat : ${siparisList}"
                  th:id="'list-'+${tmpsiparisList.urunId}">
                 <div class="row g-0">
                     <div class="col-3"
@@ -99,19 +103,14 @@
                     </div>
                     <div class="col-9">
                         <div class="card-body pb-1 pt-1">
-                            <div class="row"><h5 class="card-title mb-0" th:text="${tmpsiparisList.header}"></h5>
+                            <div class="row">
+                                <h5 class="card-title mb-0"
+                                    th:text="${tmpsiparisList.count}+' x '+${tmpsiparisList.header}"></h5>
                                 <div class="col-8">
+
                                     <p class="card-text pb-0 mb-0">
                                         <small class="text-muted"
-                                               th:text="'Toplam adet: '">
-                                        </small>
-                                        <small class="badge bg-primary rounded-pill"
-                                               th:text="${tmpsiparisList.count}">
-                                        </small>
-                                    </p>
-                                    <p class="card-text pb-0 mb-0">
-                                        <small class="text-muted"
-                                               th:text="'Sipariş tarihi: '+${tmpsiparisList.getSiparisSaati()}">
+                                               th:text="'Sipariş saati: '+${tmpsiparisList.getSiparisSaati()}">
                                         </small>
                                     </p>
                                     <p class="card-text">
@@ -143,7 +142,7 @@
 
             </div>
             <div class="h-100" th:if="${listeBos}">
-                <img alt="List is Empty" class="w-100" src="/image/emptyList.gif">
+                <img alt="List is Empty" class="w-100" src="/image/looking.gif">
             </div>
         </div>
 

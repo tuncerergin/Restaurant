@@ -30,6 +30,9 @@ public class MenuIcerik  implements Serializable {
     @OneToMany(mappedBy = "urun")
     private List<Siparis> siparis;
 
+    @OneToMany(mappedBy = "menuIcerik")
+    private List<Icindekiler> icindekiler;
+
     @Override
     public String toString() {
         return "MenuIcerik{" +
@@ -39,4 +42,6 @@ public class MenuIcerik  implements Serializable {
                 ", imagePath='" + imagePath + '\'' +
                 '}';
     }
+
+
 }
