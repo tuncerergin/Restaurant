@@ -16,6 +16,6 @@ public interface SiparisRepository extends JpaRepository<Siparis, Integer> {
             "SELECT MAX(siparisAlmaTarihi) FROM Siparis WHERE  urun.id=:urunId and masa.id=:masaId)")
     void deleteLastSiparisByUrunIdAndMasaId(Integer urunId,Integer masaId);
 
-   List<Siparis> findAllByMasaIdAndSiparisDurum_IdLessThanEqual(Integer masaId, int durum);
+   List<Siparis> findAllByMasaIdAndSiparisDurum_IdLessThan(Integer masaId, int durum);
 }
 

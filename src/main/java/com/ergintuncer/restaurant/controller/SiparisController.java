@@ -52,7 +52,7 @@ public class SiparisController {
 
     @RequestMapping(value = "/siparisList", method = RequestMethod.GET)
     public String siparisListele(Model model, @RequestParam("masaId") String masaId) {
-        List<Siparis> siparisItems = siparisRepository.findAllByMasaIdAndSiparisDurum_IdLessThanEqual(Integer.valueOf(masaId), SIPARIS_DURUM_HESAP_ISTENDI);
+        List<Siparis> siparisItems = siparisRepository.findAllByMasaIdAndSiparisDurum_IdLessThan(Integer.valueOf(masaId), SIPARIS_DURUM_HESAP_ISTENDI);
 
         for (Siparis siparisItem : siparisItems) {
             SiparisItem item = new SiparisItem(

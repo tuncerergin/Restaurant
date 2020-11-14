@@ -42,22 +42,27 @@
                       row-cols-xl-5
                       p-0 ml-0 mr-0">
 
-                        <div class="col p-1 m-0 hover"
+                        <div class="col p-1 m-0 "
                              th:each="tmpmenuIcerik, iStat : ${tmpmenuKategori.getMenuIcerik()}">
-                            <div class="card border h-100" style="border-radius: 16px!important;"
-                                 th:id="${tmpmenuIcerik.id}">
 
-                                <img alt=""
-                                     class="card-img-top img-fluid"
-                                     style="flex-shrink: 0; align-self: center; border-radius:16px 16px 0 0; max-width: 200px; max-height: 200px; cursor: pointer;"
-                                     th:onclick="siparisEkleCikar([[@{/siparisEkle/(itemId=${tmpmenuIcerik.id},siparisDurum=ekle)}]],'itemImage-' + [[${tmpmenuIcerik.id}]],[[${tmpmenuIcerik.imagePath}]])"
-                                     th:attr="src=${tmpmenuIcerik.imagePath},alt=${tmpmenuIcerik.icerikBaslik}"
-                                     th:id="'itemImage-'+${tmpmenuIcerik.id}">
+                            <div class="card border h-100" style="border-radius: 8px!important;"
+                                 th:id="${tmpmenuIcerik.id}">
+                                <div class="card-image waves-effect waves-block waves-light">
+                                    <img alt=""
+                                         class="card-img-top img-fluid"
+                                         style="flex-shrink: 0; align-self: center; border-radius:8px 8px 0 0; max-width: 200px; max-height: 200px; cursor: pointer;"
+                                         th:attr="src=${tmpmenuIcerik.imagePath},alt=${tmpmenuIcerik.icerikBaslik}"
+                                         th:id="'itemImage-'+${tmpmenuIcerik.id}"
+                                         th:onclick="siparisEkleCikar([[@{/siparisEkle/(itemId=${tmpmenuIcerik.id},siparisDurum=ekle)}]],'itemImage-' + [[${tmpmenuIcerik.id}]],[[${tmpmenuIcerik.imagePath}]])">
+                                </div>
+
                                 <div class="card-body">
                                     <h6 class="card-title"
-                                        style=" cursor: pointer;"
+                                        style="cursor: pointer;"
                                         th:onclick="siparisEkleCikar([[@{/siparisEkle/(itemId=${tmpmenuIcerik.id},siparisDurum=ekle)}]],'itemImage-' + [[${tmpmenuIcerik.id}]],[[${tmpmenuIcerik.imagePath}]])"
                                         th:text="${tmpmenuIcerik.icerikBaslik}"></h6>
+
+
                                     <details>
                                         <summary><small> İçindekiler:</small></summary>
                                         <p class="m-0"
@@ -80,7 +85,7 @@
     </div>
 </div>
 
-<div style="height:90vh" th:fragment="siparis">
+<div id="siparis" style="height:90vh" th:fragment="siparis">
     <div class="row p-2" style="height: min-content;">
         <p class="h5">Sipariş Listesi:</p>
     </div>
@@ -96,10 +101,12 @@
                     <div class="col-3"
                          style="flex-shrink: 0;
                                box-shadow:4px 4px 20px 0 #343a4066; border-radius: 8px; overflow: hidden; align-self: center">
-                        <img alt=""
-                             class="h-100 w-100 hover"
-                             th:attr="src=${tmpsiparisList.imageUrl}"
-                             th:id="'orderItemImg-'+${tmpsiparisList.urunId}">
+                        <div class="card-image waves-effect waves-block waves-light">
+                            <img alt=""
+                                 class="h-100 w-100 hover"
+                                 th:attr="src=${tmpsiparisList.imageUrl}"
+                                 th:id="'orderItemImg-'+${tmpsiparisList.urunId}">
+                        </div>
                     </div>
                     <div class="col-9">
                         <div class="card-body pb-1 pt-1">
