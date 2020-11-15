@@ -45,12 +45,12 @@
                         <div class="col p-1 m-0 "
                              th:each="tmpmenuIcerik, iStat : ${tmpmenuKategori.getMenuIcerik()}">
 
-                            <div class="card border h-100" style="border-radius: 8px!important;"
+                            <div class="card shadow-sm h-100"
                                  th:id="${tmpmenuIcerik.id}">
                                 <div class="card-image waves-effect waves-block waves-light">
                                     <img alt=""
                                          class="card-img-top img-fluid"
-                                         style="flex-shrink: 0; align-self: center; border-radius:8px 8px 0 0; max-width: 200px; max-height: 200px; cursor: pointer;"
+                                         style="flex-shrink: 0; align-self: center; border-radius:.625rem .625rem 0 0; max-width: 200px; max-height: 200px; cursor: pointer;"
                                          th:attr="src=${tmpmenuIcerik.imagePath},alt=${tmpmenuIcerik.icerikBaslik}"
                                          th:id="'itemImage-'+${tmpmenuIcerik.id}"
                                          th:onclick="siparisEkleCikar([[@{/siparisEkle/(itemId=${tmpmenuIcerik.id},siparisDurum=ekle)}]],'itemImage-' + [[${tmpmenuIcerik.id}]],[[${tmpmenuIcerik.imagePath}]])">
@@ -63,8 +63,8 @@
                                         th:text="${tmpmenuIcerik.icerikBaslik}"></h6>
 
 
-                                    <details>
-                                        <summary><small> İçindekiler:</small></summary>
+                                    <details th:if="${#lists.size(tmpmenuIcerik.icindekiler)}!=0">
+                                        <summary><small>İçindekiler:</small></summary>
                                         <p class="m-0"
                                            th:each="icindekiler, iStat :${tmpmenuIcerik.icindekiler}">
                                             <small class="card-subtitle mb-2 text-muted"
@@ -114,7 +114,6 @@
                                 <h5 class="card-title mb-0"
                                     th:text="${tmpsiparisList.count}+' x '+${tmpsiparisList.header}"></h5>
                                 <div class="col-8">
-
                                     <p class="card-text pb-0 mb-0">
                                         <small class="text-muted"
                                                th:text="'Sipariş saati: '+${tmpsiparisList.getSiparisSaati()}">
@@ -141,19 +140,14 @@
                                     </button>
                                 </div>
                             </div>
-
                         </div>
-
                     </div>
                 </div>
-
             </div>
             <div class="h-100" th:if="${listeBos}">
                 <img alt="List is Empty" class="w-100" src="/image/looking.gif">
             </div>
         </div>
-
-
     </div>
     <div class="row p-1" style="height:5%;">
         <span style="width: fit-content;">Toplam Tutar: </span>
@@ -163,7 +157,9 @@
 </div>
 <div th:fragment="siparisIslemleri">
     <div class="col p-1">
-        <button class="btn btn-success border shadow-sm h-100 w-100" id="btnSiparisKaydet" type="submit">Kaydet
+        <button class="btn btn-success border shadow-sm h-100 w-100" id="btnSiparisKaydet" th:onclick="siparisKaydet()"
+                type="submit"
+        >Kaydet
         </button>
     </div>
     <div class="col p-1">

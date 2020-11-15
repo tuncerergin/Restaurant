@@ -15,7 +15,6 @@
             <a class="text-decoration-none text-white" th:href="@{/siparis/(masaId=${tmpmasa.getId()})}">
                 <div th:class="${tmpmasa.masaDurum==1}? 'p-2 bg-success rounded':'p-2 bg-danger rounded'">
                     <div class="font-weight-bold text-center display-5" th:text="${tmpmasa.masaNo}"></div>
-                    <!--TODO masanın toplam fiyatını görüntüle-->
                     <div class="text-right align-bottom" th:text="${tmpmasa.toplamFiyat} +' ₺'"></div>
                 </div>
             </a>

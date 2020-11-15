@@ -41,6 +41,17 @@
             transform: scale(1.03);
         }
 
+        .card {
+            border-radius: .625rem !important;
+            /*box-shadow: 0 2px 0.75rem -3px rgba(37,51,66,.5);*/
+            color: #253342;
+            transition: box-shadow .3s;
+        }
+
+        .card:hover {
+            box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
+        }
+
         .waves-effect {
             position: relative;
             cursor: pointer;
@@ -246,7 +257,7 @@
         }
     </style>
 </head>
-<body style="overflow:auto;">
+<body style="overflow:auto; color:#253342;">
 <!--<nav class="navbar navbar-dark navbar-expand-lg bg-dark fixed-top">
     <div class="container-fluid">
         <a class="brand navbar-brand nav-item  mb-0 h1 btn-dark p-2" href="../masalar">
@@ -279,7 +290,7 @@
 </div>
 
 <script src="/materialize/js/materialize.min.js" type="text/javascript"></script>
-<script src="webjars/jquery/3.5.1/jquery.min.js"
+<script src="/webjars/jquery/3.5.1/jquery.min.js"
         type="text/javascript"></script>
 <script crossorigin="anonymous"
         integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
@@ -341,6 +352,29 @@
         })
     }
 
+    function siparisKaydet() {
+        var snackbar = document.getElementById("snackbar");
+        $.ajax({
+            url: '/siparisKaydet?masaId=' + [[${masaId}]],
+            type: 'GET',
+            success: function (data) {
+                snackbar.innerHTML = "Sipariş alındı";
+                snackbar.className = "show";
+                setTimeout(function () {
+                    snackbar.className = snackbar.className.replace("show", "");
+                }, 1000);
+                location.href = "/masalar";
+            }, error: function () {
+                snackbar.innerHTML = "Sipariş alınırken bir hata oluştu";
+                snackbar.className = "show";
+                setTimeout(function () {
+                    snackbar.className = snackbar.className.replace("show", "");
+                }, 1000);
+                location.href = "/siparis/?masaId=" + [[${masaId}]];
+            }
+        })
+    }
+
     $(document).ready(function () {
         $.ajax({
             url: '/siparisList?masaId=' + [[${masaId}]],
@@ -351,10 +385,6 @@
         })
     });
 
-    document.getElementById("btnSiparisKaydet").onclick = function () {
-        // TODO Sipariş Kaydet ve anasayfaya yönlendir
-        location.href = "/masalar";
-    };
     document.getElementById("btnHesap").onclick = function () {
         // TODO hesap iste, ödeme tamamlanınca anasayfaya yönlendir.
         location.href = "/masalar";

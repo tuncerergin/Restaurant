@@ -14,8 +14,13 @@ public interface SiparisRepository extends JpaRepository<Siparis, Integer> {
     @Modifying
     @Query("DELETE FROM Siparis WHERE urun.id=:urunId and masa.id=:masaId and siparisAlmaTarihi=(" +
             "SELECT MAX(siparisAlmaTarihi) FROM Siparis WHERE  urun.id=:urunId and masa.id=:masaId)")
-    void deleteLastSiparisByUrunIdAndMasaId(Integer urunId,Integer masaId);
+    void deleteLastSiparisByUrunIdAndMasaId(Integer urunId, Integer masaId);
 
-   List<Siparis> findAllByMasaIdAndSiparisDurum_IdLessThan(Integer masaId, int durum);
+    List<Siparis> findAllByMasaIdAndSiparisDurum_IdLessThan(Integer masaId, int durum);
+
+    @Transactional
+    @Modifying
+    @Query("UPDATE Siparis SET siparisDurum.id=2 WHERE siparisDurum.id=1 and masa.id=:masaId")
+    void updateMasaSiparisByMasaId(Integer masaId);
 }
 

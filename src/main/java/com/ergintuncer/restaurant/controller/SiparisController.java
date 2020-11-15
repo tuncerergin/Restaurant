@@ -46,6 +46,7 @@ public class SiparisController {
     public String siparis(Model model, @RequestParam("masaId") String masaId) {
         toplamTutar = 0;
         siparisList = new ArrayList<>();
+        System.out.println("Burada");
         model.addAttribute("masaId", masaId);
         return "masadetay";
     }
@@ -148,5 +149,11 @@ public class SiparisController {
         return "fragments/components :: siparis";
     }
 
+    @RequestMapping(value = "/siparisKaydet", method = RequestMethod.GET)
+    public String siparisKaydet(Model model, @RequestParam("masaId") String masaId) {
+        siparisRepository.updateMasaSiparisByMasaId(Integer.valueOf(masaId));
+
+        return "redirect:/masalar";
+    }
 
 }
